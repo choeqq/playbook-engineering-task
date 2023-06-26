@@ -1,0 +1,43 @@
+.table-wrapper {
+  width: 100%;
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+}
+
+table {
+  table-layout: fixed;
+  display: block;
+  overflow: hidden;
+  table-layout: fixed;
+  border-collapse: collapse;
+  box-shadow: 0px 10px 10px #ccc;
+  white-space: nowrap;
+  min-width: 100%;
+  max-width: 100%;
+  table-layout: auto;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #eee;
+}
+
+.table thead {
+  background-color: #ccc;
+  color: #222;
+}
+
+.table th,
+.table td {
+  padding: 0.8rem;
+  border-right: 1px solid #ddd;
+}
+
+.table td {
+  border-top: 0.5px solid #ddd;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table td:last-child {
+  cursor: pointer;
+}

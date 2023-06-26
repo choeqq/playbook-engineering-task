@@ -1,0 +1,69 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  min-width: 400px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.form {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+
+.fields-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.form-field {
+  display: flex;
+  justify-content: space-between;
+  gap: 4rem;
+}
+
+.btn {
+  cursor: pointer;
+  height: 3rem;
+}
+
+.sum {
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+.conversion-rate {
+  text-decoration: underline;
+  font-size: 0.8rem;
+  color: #888;
+  cursor: pointer;
+}
+
+.conversion-rate-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+}
