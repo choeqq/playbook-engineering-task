@@ -25,6 +25,10 @@ Other useful technologies for the project (not used): 📚
 - some kind of API for updating currencies convertion rates
 - some kind of state management tool like Context, Redux or MobX - I didn't found that necessary for the project, so I ommited usage of those
 - React-Query for API calls
+- React-hook-form for better user input handling
+- Tailwind or styled-components for styling
+- CSS modules for styling
+- Jest for testing
 
 ## Possible improvements 📝
 
