@@ -1,12 +1,8 @@
 import "./Table.css";
-import { Row } from "../types";
+import store from "../store";
+import { observer } from "mobx-react";
 
-interface TableProps {
-  rows: Row[];
-  deleteRow: (idx: string) => void;
-}
-
-const Table = ({ rows, deleteRow }: TableProps) => {
+const Table = () => {
   return (
     <div className="table-wrapper">
       <table className="table">
@@ -19,12 +15,12 @@ const Table = ({ rows, deleteRow }: TableProps) => {
           </tr>
         </thead>
         <tbody>
-          {rows.map(({ id, title, amountPLN, amountEUR, options }) => (
+          {store.rows.map(({ id, title, amountPLN, amountEUR, options }) => (
             <tr key={id}>
               <td>{title}</td>
               <td>{amountPLN}</td>
               <td>{amountEUR}</td>
-              <td onClick={() => deleteRow(id)}>{options}</td>
+              <td onClick={() => store.deleteRow(id)}>{options}</td>
             </tr>
           ))}
         </tbody>
@@ -33,4 +29,4 @@ const Table = ({ rows, deleteRow }: TableProps) => {
   );
 };
 
-export default Table;
+export default observer(Table);

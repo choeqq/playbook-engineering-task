@@ -1,81 +1,35 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./App.css";
-import { calculateEURAmount, calculateSum, generateRandomId } from "./helpers";
+import { generateRandomId } from "./helpers";
 import Table from "./components/Table";
-import { Row } from "./types";
+import store from "./store";
+import { observer } from "mobx-react";
 
 function App() {
-  const [rows, setRows] = useState<Row[]>([
-    {
-      id: generateRandomId(),
-      title: "New book about Rust",
-      amountPLN: 100,
-      amountEUR: 22.82,
-      options: "Delete",
-    },
-    {
-      id: generateRandomId(),
-      title: "Snacks for a football match",
-      amountPLN: 20,
-      amountEUR: 4.56,
-      options: "Delete",
-    },
-    {
-      id: generateRandomId(),
-      title: "Bus ticket",
-      amountPLN: 2.55,
-      amountEUR: 0.58,
-      options: "Delete",
-    },
-  ]);
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState(1);
-  const [sum, setSum] = useState(calculateSum(rows));
   const [isInputOpen, setIsInputOpen] = useState(false);
-  const [eurConversionRate, setEurConversionRate] = useState(4.382);
-
-  useEffect(() => {
-    // calculate sum
-    setSum(calculateSum(rows));
-  }, [rows]);
-
-  useEffect(() => {
-    // update EUR amounts
-    const newRows = rows.map((row) => ({
-      ...row,
-      amountEUR: calculateEURAmount(row.amountPLN, eurConversionRate),
-    }));
-    setRows(newRows);
-  }, [eurConversionRate, rows]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setRows([
-      ...rows,
-      {
-        id: generateRandomId(),
-        title,
-        amountPLN: amount,
-        amountEUR: calculateEURAmount(amount, eurConversionRate),
-        options: "Delete",
-      },
-    ]);
+    store.addRow({
+      id: generateRandomId(),
+      title,
+      amountPLN: amount,
+      amountEUR: +(amount / store.eurConversionRate).toFixed(2),
+      options: "Delete",
+    });
 
     setTitle("");
     setAmount(0);
-  };
-
-  const handleDeleteRow = (id: string) => {
-    const newRows = rows.filter((row) => row.id !== id);
-    setRows(newRows);
   };
 
   return (
     <>
       <div className="header">
         <h2>List of expenses</h2>
-        <p>1EUR = {eurConversionRate} PLN</p>
+        <p>1EUR = {store.eurConversionRate} PLN</p>
       </div>
       <form onSubmit={handleSubmit} className="form">
         <div className="fields-wrapper">
@@ -110,9 +64,9 @@ function App() {
           Add
         </button>
       </form>
-      <Table rows={rows} deleteRow={handleDeleteRow} />
+      <Table />
       <p className="sum">
-        Sum: {sum} PLN ({calculateEURAmount(sum, eurConversionRate)} EUR)
+        Sum: {store.calculateSum()} PLN ({store.calcuateEURSum()} EUR)
       </p>
       <div>
         <p className="conversion-rate" onClick={() => setIsInputOpen(true)}>
@@ -127,11 +81,11 @@ function App() {
               step="0.01"
               pattern="\d+(\.\d{1,2})?"
               min={1}
-              value={eurConversionRate}
+              value={store.eurConversionRate}
               onChange={(e) => {
                 const value = +e.target.value;
                 if (value > 0) {
-                  setEurConversionRate(value);
+                  store.updateConversionRate(value);
                 }
               }}
             />
@@ -151,4 +105,4 @@ function App() {
   );
 }
 
-export default App;
+export default observer(App);
